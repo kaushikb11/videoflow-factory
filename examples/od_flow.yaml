@@ -1,0 +1,41 @@
+od_flow:
+  description: "Fynd Trak: MD & OD to Cache Flow"
+  owner: "Kaushik B"
+  tasks:
+    reader:
+      operator: videoflow.producers.VideoFileReader
+      node: Producer
+      arguments:
+        video_file: "./videos/abc_xyz.mp4"
+    frame:
+      operator: videoflow.processors.basic.FrameIndexSplitter
+      node: Processor
+      dependencies: [reader]
+    od_key:
+      operator: videoflow.processors.KeyGenerator
+      node: Processor
+      arguments:
+        store_id: "abc"
+        video_id: "abc"
+        prefix: "od"
+      dependencies: [reader]
+    motion_detector:
+      operator: videoflow.processors.detector.motion_detector.OpencvMotionDetector
+      node: Processor
+      dependencies: [frame]
+    object_detector:
+      operator: videoflow.processors.detector.AsyncObjectDetector
+      node: Processor
+      arguments:
+        url: "https://sample.url.com/api/v1/predict"
+        nb_concurrent_tasks: 500
+        gradual_increase_task: True
+      dependencies: [frame]
+    od_md_result_generator:
+      operator: videoflow.processors.OdMdResultGenerator
+      node: Processor
+      dependencies: [motion_detector, object_detector]
+    redis_cache:
+      operator: videoflow.cache.RedisCache
+      node: Consumer
+      dependencies: [od_key, od_md_result_generator]
