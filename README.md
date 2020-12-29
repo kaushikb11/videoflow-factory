@@ -25,7 +25,7 @@ od_flow:
       operator: videoflow.producers.VideoFileReader
       node: Producer
       arguments:
-        video_file: "./videos/abc_xyz.mp4"
+        video_file: "./videos/sample.mp4"
     frame:
       operator: videoflow.processors.basic.FrameIndexSplitter
       node: Processor
@@ -80,7 +80,7 @@ And this DAG will be generated and the Flow will start running!
 ## Benefits
 
 * Construct DAGs without knowing Python
-* Construct DAGs without learning Airflow primitives
+* Construct DAGs without learning VideoFlow primitives
 * Avoid duplicative code
 * Everyone loves YAML! ;)
 

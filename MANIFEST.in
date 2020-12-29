@@ -1,0 +1,4 @@
+include settings.ini
+include *.md
+recursive-exclude * __pycache__
+recursive-include videoflow_factory *.py
