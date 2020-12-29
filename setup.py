@@ -12,7 +12,7 @@ with open(os.path.join(HERE, "README.md")) as fid:
     README = fid.read()
 
 __version__ = None  # set __version__ in this exec() call
-exec(open("videoflow-factory/version.py").read())
+exec(open("videoflow_factory/version.py").read())
 # This call to setup() does all the work
 
 setup(
